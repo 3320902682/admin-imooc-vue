@@ -1,13 +1,11 @@
 <template>
-  <div>
-    book
-  </div>
+  <div>bookCreate</div>
 </template>
 
 <script>
-    export default {
-        name: "create"
-    };
+export default {
+  name: 'Create'
+}
 </script>
 
 <style scoped>
