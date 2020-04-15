@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from '@/layout';
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -73,11 +73,11 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: {title: 'Dashboard', icon: 'dashboard', affix: true}
       }
     ]
   }
-]
+];
 
 /**
  * asyncRoutes
@@ -88,30 +88,35 @@ export const asyncRoutes = [
     path: '/book',
     component: Layout,
     redirect: '/book/create',
-    meta: { title: '图书管理', icon: 'documentation', roles: ['admin'] },
+    meta: {title: '图书管理', icon: 'documentation', roles: ['admin']},
     children: [
       {
         path: '/book/create',
         component: () => import('@/views/book/create'),
         name: 'book',
-        meta: { title: '添加图书', icon: 'edit', roles: ['admin'] }
+        meta: {title: '添加图书', icon: 'edit', roles: ['admin']}
       }
     ]
-  }
-]
+  },
+  {
+    path: '*',
+    hidden: true,
+    redirect: "/404"
+  },
+];
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
-})
+});
 
-const router = createRouter()
+const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher; // reset router
 }
 
-export default router
+export default router;
