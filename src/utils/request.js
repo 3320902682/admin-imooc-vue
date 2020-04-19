@@ -19,7 +19,7 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = `Bearer ${getToken()}`
     }
     return config
   },
@@ -32,30 +32,18 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-   */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
   response => {
     const res = response.data
 
     if (res.code !== 0) {
-      const errMsg = res.message || '请求失败'
       Message({
-        message: errMsg,
+        message: res.msg || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
-
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
+      // 判断 token 失效的场景
+      if (res.code === -2) {
+        // 如果 token 失效，则弹出确认对话框，用户点击后，清空 token 并返回登录页面
         MessageBox.confirm('Token 失效，请重新登录', '确认退出登录', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
@@ -66,15 +54,19 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(errMsg))
+      return Promise.reject(new Error(res.msg || '请求失败'))
     } else {
       return res
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    let message = error.message || '请求失败'
+    if (error.response && error.response.data) {
+      const { data } = error.response
+      message = data.msg
+    }
     Message({
-      message: error.message,
+      message,
       type: 'error',
       duration: 5 * 1000
     })
