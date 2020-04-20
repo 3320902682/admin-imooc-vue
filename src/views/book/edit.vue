@@ -1,11 +1,12 @@
 <template>
-  <detail />
+  <detail :is-edit="true" />
 </template>
 
 <script>
 import Detail from './components/detail'
+
 export default {
-  name: 'CreateBook',
+  name: 'EditBook',
   components: { Detail }
 }
 </script>
