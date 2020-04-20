@@ -9,9 +9,10 @@
       </sticky>
       <div class="detail-container">
         <el-row>
-          <warning />
+          <warning/>
           <el-col :span="24">
-            <!-- 编写具体表单控件 -->
+            <!-- 具体表单控件 -->
+            <ebook-upload/>
           </el-col>
           <el-col :span="24">
             <!-- 编写具体表单控件 -->
@@ -23,41 +24,51 @@
 </template>
 
 <script>
-import Sticky from '../../../components/Sticky/index'
-import Warning from './warning'
-export default {
-  name: 'Detail',
-  components: { Warning, Sticky },
-  props: {
-    isEdit: { type: Boolean, detail: false }
-  },
-  methods: {
-    /**
+  import Sticky from '../../../components/Sticky/index';
+  import Warning from './warning';
+  import EbookUpload from "../../../components/EbookUpload/index";
+
+  export default {
+    name: 'Detail',
+    components: {EbookUpload, Warning, Sticky},
+    props: {
+      isEdit: {type: Boolean, detail: false}
+    },
+    data() {
+      return {
+        loading: false
+      };
+    },
+    methods: {
+      /**
        * 显示帮组
        */
-    showGuide() {
+      showGuide() {
 
-    },
-    /**
+      },
+      /**
        * 提交表单
        */
-    submitForm() {
+      submitForm() {
 
+      }
     }
-  }
-}
+  };
 </script>
 
 <style scoped lang="scss">
 
   .detail {
     position: relative;
+
     .detail-container {
       padding: 40px 45px 20px 50px;
+
       .preview-img {
         width: 200px;
         height: 270px;
       }
+
       .contents-wrapper {
         padding: 5px 0;
       }
